@@ -167,7 +167,7 @@ public:
 
 
   ListIterator<T> find(T info){
-    auto current = fornt;
+    auto current = front;
     while(current){
       if(current->info == info){
         return ListIterator<T>(current);
