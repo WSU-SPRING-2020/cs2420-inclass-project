@@ -14,11 +14,38 @@ struct Node {
 };
 
 template<typename T>
+class ListIterator {
+private:
+  Node<T>* current = nullptr;
+public:
+  ListIterator(Node<T>* node): current(node){}
+  T operator*(){
+    return current->info;
+  }
+  ListIterator<T>& operator++(){
+    current = current->next;
+    return *this;
+  }
+
+  bool operator==(ListIterator<T>& rhs){
+    return current == rhs.current;
+  }
+
+  bool operator!=(ListIterator<T>& rhs){
+    return current != rhs.current;
+  }
+
+  operator bool() const{
+    return current;
+  }
+};
+
+template<typename T>
 class List{
 public:
   List(){}
   List(const List<T>& lst) {
-    auto current = lst.front;
+    Node<T>* current = lst.front;
     while(current){
       add_back(current->info);
       current = current->next;
@@ -55,6 +82,102 @@ public:
     return *this;
   }
 
+  List<T>& add_front(T info){
+    front = new Node<T>(info, front);
+    if(!back){
+      back = front;
+    }
+
+    sz++;
+    return *this;
+  }
+
+  bool remove_front(){
+    if(front == back){
+      if(!front){
+        return false;
+      }
+
+      delete front;
+      front = back = nullptr;
+    } else{
+      auto tmp = front;
+      front = front->next;
+      delete tmp;
+    }
+
+    sz--;
+    return true;
+  }
+
+  bool remove_back(){
+    if(front == back){
+      if(!front){
+        return false;
+      }
+
+      delete back;
+      front = back = nullptr;
+    } else{
+      auto pred = front;
+      while(pred->next != back){
+        pred = pred->next;
+      }
+
+      pred->next = nullptr;
+      delete back;
+      back = pred;
+    }
+
+    sz--;
+    return true;
+  }
+
+  bool remove(T info){
+    if(!front){
+      return false;
+    }else if(front->info == info){
+      auto tmp = front;
+      front = front->next;
+      delete tmp;
+      sz--;
+      return true;
+    } else {
+      auto pred = front;
+      auto current = front->next;
+      while(current){
+        if(current->info == info){
+          pred->next = current->next;
+          if(!pred->next){
+            back = pred;
+          }
+
+          delete current;
+          sz--;
+          return true;
+        }
+
+        pred = current;
+        current = current->next;
+      }
+    }
+
+    return false;
+  }
+
+
+  ListIterator<T> find(T info){
+    auto current = fornt;
+    while(current){
+      if(current->info == info){
+        return ListIterator<T>(current);
+      }
+
+      current = current->next;
+    }
+
+    return ListIterator<T>(nullptr);
+  }
   ~List(){
     removeAll();
   }
