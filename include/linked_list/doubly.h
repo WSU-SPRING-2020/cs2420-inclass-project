@@ -1,5 +1,5 @@
-#ifndef _SINGLY_LINKED_LIST_H_
-#define _SINGLY_LINKED_LIST_H_
+#ifndef _DOUBLY_LINKED_LIST_H_
+#define _DOUBLY_LINKED_LIST_H_
 #include <initializer_list>
 
 namespace cs2420 {
@@ -8,9 +8,10 @@ template<typename T>
 struct Node {
   T info;
   Node<T>* next;
+  Node<T>* prev;
 
-  Node(T info): info(info), next(nullptr){}
-  Node(T info, Node<T>* ptr): info(info), next(ptr){}
+  Node(T info): info(info), next(nullptr), prev(nullptr){}
+  Node(T info, Node<T>* nxt, Node<T>* prv): info(info), next(nxt), prev(prv){}
 };
 
 template<typename T>
@@ -70,7 +71,7 @@ public:
   }
 
   List<T>& add_back(T info){
-    auto node = new Node<T>(info);
+    auto node = new Node<T>(info, nullptr, back);
     if(back){ // list is not empty
       back->next = node;
       back = node;
@@ -83,9 +84,12 @@ public:
   }
 
   List<T>& add_front(T info){
-    front = new Node<T>(info, front);
-    if(!back){
-      back = front;
+    auto node = new Node<T>(info, front, nullptr);
+    if(front){
+      front->prev = node;
+      front = node;
+    } else {
+      back = front = node;
     }
 
     sz++;
@@ -103,6 +107,7 @@ public:
     } else{
       auto tmp = front;
       front = front->next;
+      front->prev = nullptr;
       delete tmp;
     }
 
@@ -119,12 +124,9 @@ public:
       delete back;
       front = back = nullptr;
     } else{
-      auto pred = front;
-      while(pred->next != back){
-        pred = pred->next;
-      }
-
+      auto pred = back->prev;
       pred->next = nullptr;
+
       delete back;
       back = pred;
     }
@@ -139,25 +141,27 @@ public:
     }else if(front->info == info){
       auto tmp = front;
       front = front->next;
+      front->prev = nullptr;
       delete tmp;
       sz--;
       return true;
     } else {
-      auto pred = front;
       auto current = front->next;
       while(current){
         if(current->info == info){
-          pred->next = current->next;
-          if(!pred->next){
-            back = pred;
-          }
 
+          if(current == back){
+            back = current->prev;
+          } else {
+            current->next->prev = current->prev;
+          }
+            
+          current->prev->next = current->next;
           delete current;
           sz--;
           return true;
         }
 
-        pred = current;
         current = current->next;
       }
     }
