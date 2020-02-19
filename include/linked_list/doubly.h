@@ -196,11 +196,15 @@ public:
 
     return out;
   }
+  bool empty() const { return sz == 0; }
+  unsigned size() const { return sz; }
+  
+  void clear(){ removeAll(); }
   ~List(){
     removeAll();
   }
 
-private:
+protected:
   unsigned sz = 0;
   Node<T>* front = nullptr;
   Node<T>* back = nullptr;
