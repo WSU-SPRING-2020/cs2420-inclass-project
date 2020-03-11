@@ -1,8 +1,12 @@
 #include <iostream>
 #include <string>
 #include "stack.h"
+#include <chrono>
+#include <random>
 
 using namespace std;
+using namespace std::chrono;
+
 enum class Marker {
   Exit = 'X', Entry = 'N', Passage = ' ', Wall = '1', Visited = '.'
 };
@@ -86,6 +90,7 @@ public:
 };
 
 int main(){
+  auto start = high_resolution_clock::now();
   string mazeGrid [] = {
     "11111111111",
     "11        1",
@@ -102,5 +107,23 @@ int main(){
 
   Maze maze(mazeGrid, 11u);
   maze.exit();
+  auto end = high_resolution_clock::now();
+
+  chrono::duration<double, std::micro> running_time = end - start;
+
+  cout << "Took " << running_time.count() << " micoseconds to run" << endl;
+
+
+  default_random_engine en;
+  en.seed(system_clock::now().time_since_epoch().count());
+  uniform_int_distribution dist{1, 6};
+
+  cout << dist(en) << endl;
+  cout << dist(en) << endl;
+  cout << dist(en) << endl;
+  cout << dist(en) << endl;
+  cout << dist(en) << endl;
+  cout << dist(en) << endl;
+
   return 0;
 }
