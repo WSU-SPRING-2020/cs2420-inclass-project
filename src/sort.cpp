@@ -4,6 +4,9 @@
 #include <chrono>
 #include "sorting/byBubble.h"
 #include "sorting/bySelection.h"
+#include "sorting/byMerge.h"
+#include "sorting/byQuick.h"
+#include "sorting/byHeap.h"
 
 using namespace std;
 int random(int min, int max){
@@ -31,5 +34,21 @@ int main() {
   cs2420::SortBySelection<int> sbs { b };
   sbs.sort();
   cout << setw(25) << "Sorted by Selection: " << b << endl;
+
+  b = original;
+  cs2420::SortByMerge<int> sbm { b };
+  sbm.sort();
+  cout << setw(25) << "Sorted by Merge: " << b << endl;
+
+  b = original;
+  cs2420::SortByQuick<int> sbq { b };
+  sbq.sort();
+  cout << setw(25) << "Sorted by Quick: " << b << endl;
+
+  b = original;
+  cs2420::SortByHeap<int> sbh { b };
+  sbh.sort();
+  cout << setw(25) << "Sorted by Heap: " << b << endl;
+
   return 0;
 }
