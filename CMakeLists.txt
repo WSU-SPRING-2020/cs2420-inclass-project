@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
+add_executable(bst src/bst.cpp)
 add_executable(sort src/sort.cpp)
 add_executable(demosq src/demosq.cpp)
 add_executable(maze src/maze.cpp)
