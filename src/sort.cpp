@@ -17,10 +17,10 @@ int random(int min, int max){
 
 int main() {
   const int MAX_SIZE = 15;
-  Bag<int> original;
-  for(int i = 0 ; i < MAX_SIZE; i++){
-    original.add(random(1, 99));
-  }
+  Bag<int> original  = {3, 2, 5, 9, 7, 4, 1, 8};
+  // for(int i = 0 ; i < MAX_SIZE; i++){
+  //   original.add(random(1, 99));
+  // }
 
   cout << setw(25) << "Original: " << original << endl;
   Bag<int> b = original;
