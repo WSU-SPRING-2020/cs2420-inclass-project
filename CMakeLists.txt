@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
+add_executable(graph src/graph.cpp)
 add_executable(avl src/avl.cpp)
 add_executable(bst src/bst.cpp)
 add_executable(sort src/sort.cpp)
