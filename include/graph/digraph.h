@@ -15,7 +15,7 @@ protected:
 
 public:
   Digraph(int v) : Graph(v), indegree(new int[v]{}){}
-
+  bool directed(){ return true; }
   void addEdge(int v, int w){
     Graph::addEdge(v, w);
     indegree[w]++;

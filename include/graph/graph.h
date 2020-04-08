@@ -19,6 +19,8 @@ public:
 
   int V() { return v; }
   int E() { return e; }
+  std::list<int> adjList(int v) { return adj[v]; }
+  virtual bool directed(){ return false; }
 
   virtual void addEdge(int v, int w){
     e++;
